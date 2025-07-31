@@ -7,8 +7,8 @@ function Home() {
 
     const movies =[
         {id: 1, title: "John Wick", release_date: "2020"},
-        {id: 2, title: "John Wick 2", release_date: "2022"},
-        {id: 3, title: "John Wick 3", release_date: "2025"},
+        {id: 2, title: "Peter Pan", release_date: "1970"},
+        {id: 3, title: "Indiana Jones: Raiders of the Lost Ark", release_date: "1994"},
     ]
 
     const handleSearch = (e) => {
@@ -31,9 +31,11 @@ function Home() {
             </form>
 
             <div className="movies-grid">
-                {movies.map((movie) => ( // using .map() to iterate through every movie in movies array
-                    <MovieCard movie={movie} key={movie.id}/> // for each movie, return the MovieCard component
-                ))}
+                {movies.map((movie) => // using .map() to iterate through every movie in movies array
+                    movie.title.toLowerCase().startsWith(searchQuery) && (
+                        <MovieCard movie={movie} key={movie.id}/> // for each movie, return the MovieCard component
+                    )
+                )}
             </div>
         </div>
     )
