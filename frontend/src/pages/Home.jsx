@@ -1,17 +1,34 @@
 import MovieCard from "../components/MovieCard"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css"
 
 function Home() {
     // creating a state for search bar
     const [searchQuery, setSearchQuery] = useState(""); // setup is [variableName, setVariableName] = useState("defaultValue");
+    const [movies, setMovies] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const movies =[
-        {id: 1, title: "John Wick", release_date: "2020"},
-        {id: 2, title: "Peter Pan", release_date: "1970"},
-        {id: 3, title: "Indiana Jones: Raiders of the Lost Ark", release_date: "1994"},
-    ]
+    useEffect(() => {
+        const loadPopularMovies = async () => {
+            try{
+                const popularMovies = await getPopularMovies()
+                setMovies(popularMovies)
+            } catch (err) {
+                console.log(err)
+                setError("Failed to load movies...")
+            }
+            finally {
+                setLoading(false)
+            }
+        }
+
+        loadPopularMovies()
+    }, [])
+    // the way useEffect get's set up:
+    // write it as a function, and put a function inside that you want to call: () => {}
+    // the inside function is called when there are changes to the dependency array: []
 
     const handleSearch = (e) => {
         e.preventDefault() // does not refresh the page, keeping search bar text
