@@ -49,13 +49,18 @@ function Home() {
                 <button type="submit" className="search-button">Search</button>
             </form>
 
-            <div className="movies-grid">
-                {movies.map((movie) => // using .map() to iterate through every movie in movies array
-                    movie.title.toLowerCase().startsWith(searchQuery) && (
-                        <MovieCard movie={movie} key={movie.id}/> // for each movie, return the MovieCard component
-                    )
-                )}
-            </div>
+            {error && <div className="error-message">{error}</div>}
+
+            {loading ? <div className="loading">Loading...</div> :
+                <div className="movies-grid">
+                    {movies.map((movie) => // using .map() to iterate through every movie in movies array
+                        movie.title.toLowerCase().startsWith(searchQuery) && (
+                            <MovieCard movie={movie} key={movie.id}/> // for each movie, return the MovieCard component
+                        )
+                    )}
+                </div>
+            }
+
         </div>
     )
 }
