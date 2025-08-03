@@ -30,10 +30,25 @@ function Home() {
     // write it as a function, and put a function inside that you want to call: () => {}
     // the inside function is called when there are changes to the dependency array: []
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault() // does not refresh the page, keeping search bar text
-        alert(searchQuery) // alert now pops up with what was typed into search bar
-        setSearchQuery("RESET SEARCH!") // changes the search bar state to "Reset Search" on alert clear
+        
+        if (!searchQuery.trim()) return
+        if (loading) return
+
+        setLoading(true)
+        try {
+            const searchResults = await searchMovies(searchQuery)
+            setMovies(searchResults)
+            setError(null)
+        } catch(err) {
+            console.log(err)
+            setError("Failed to load movies...")
+        } finally {
+            setLoading(false)
+        }
+
+        setSearchQuery("") // changes the search bar state to empty on search
     }
 
     return(
