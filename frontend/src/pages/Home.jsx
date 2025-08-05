@@ -14,13 +14,13 @@ function Home() {
         const loadPopularMovies = async () => {
             try{
                 const popularMovies = await getPopularMovies()
-                setMovies(popularMovies)
+                setMovies(popularMovies);
             } catch (err) {
-                console.log(err)
-                setError("Failed to load movies...")
+                console.log(err);
+                setError("Failed to load movies...");
             }
             finally {
-                setLoading(false)
+                setLoading(false);
             }
         }
 
